@@ -16,7 +16,9 @@ public class GenericPageResponse<T> extends BaseRestResponse {
     @Override
     public String toString() {
         return "GenericPageResponse{" +
-                "page=" + page +
+                "status='" + status + '\'' +
+                ", cause='" + cause + '\'' +
+                ", page=" + page +
                 '}';
     }
 }

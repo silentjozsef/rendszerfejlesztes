@@ -20,7 +20,9 @@ public class GenericListResponse<T> extends BaseRestResponse {
     @Override
     public String toString() {
         return "GenericListResponse{" +
-                "items=" + items +
+                "status='" + status + '\'' +
+                ", cause='" + cause + '\'' +
+                ", items=" + items +
                 '}';
     }
 }

@@ -45,7 +45,7 @@ public class UserQuery extends BaseQuery<User> {
                         try {
                             String body = null;
                             GenericSingleResponse genericSingleResponse = null;
-                            if (error.networkResponse.data != null) {
+                            if (error.networkResponse != null && error.networkResponse.data != null) {
                                 body = new String(error.networkResponse.data, "UTF-8");
                                 genericSingleResponse = getGenericSingleResponse(body);
                             }

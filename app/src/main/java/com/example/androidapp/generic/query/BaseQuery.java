@@ -24,7 +24,7 @@ import java.io.UnsupportedEncodingException;
 
 public abstract class BaseQuery<T> {
 
-    protected static final String backendURL = "http://192.168.0.74:8080/";
+    protected static final String backendURL = "http://192.168.0.171:8080/";
 
     protected final String parentUrl;
 
@@ -48,7 +48,7 @@ public abstract class BaseQuery<T> {
                     try {
                         String body = null;
                         GenericSingleResponse genericSingleResponse = null;
-                        if (error.networkResponse.data != null) {
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
                             body = new String(error.networkResponse.data, "UTF-8");
                             genericSingleResponse = getGenericSingleResponse(body);
                         }
@@ -75,7 +75,7 @@ public abstract class BaseQuery<T> {
                     try {
                         String body = null;
                         GenericListResponse genericSingleResponse = null;
-                        if (error.networkResponse.data != null) {
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
                             body = new String(error.networkResponse.data, "UTF-8");
                             genericSingleResponse = getGenericListResponse(body);
                         }
@@ -101,7 +101,7 @@ public abstract class BaseQuery<T> {
                     try {
                         String body = null;
                         GenericPageResponse genericPageResponse = null;
-                        if (error.networkResponse.data != null) {
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
                             body = new String(error.networkResponse.data, "UTF-8");
                             genericPageResponse = getGenericPageResponse(body);
                         }
@@ -129,7 +129,7 @@ public abstract class BaseQuery<T> {
                         try {
                             String body = null;
                             GenericSingleResponse genericSingleResponse = null;
-                            if (error.networkResponse.data != null) {
+                            if (error.networkResponse != null && error.networkResponse.data != null) {
                                 body = new String(error.networkResponse.data, "UTF-8");
                                 genericSingleResponse = getGenericSingleResponse(body);
                             }

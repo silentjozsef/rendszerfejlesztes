@@ -8,7 +8,9 @@ public class GenericSingleResponse<T> extends BaseRestResponse {
     @Override
     public String toString() {
         return "GenericSingleResponse{" +
-                "item=" + item +
+                "status='" + status + '\'' +
+                ", cause='" + cause + '\'' +
+                ", item=" + item +
                 '}';
     }
 
