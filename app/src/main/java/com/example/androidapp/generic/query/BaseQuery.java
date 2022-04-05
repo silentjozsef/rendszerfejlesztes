@@ -24,7 +24,7 @@ import java.io.UnsupportedEncodingException;
 
 public abstract class BaseQuery<T> {
 
-    protected static final String backendURL = "http://192.168.0.171:8080/";
+    protected static final String backendURL = "http://192.168.0.74:8080/";
 
     protected final String parentUrl;
 

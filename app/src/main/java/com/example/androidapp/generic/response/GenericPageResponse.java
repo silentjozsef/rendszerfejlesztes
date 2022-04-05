@@ -1,17 +1,17 @@
 package com.example.androidapp.generic.response;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class GenericPageResponse<T> extends BaseRestResponse {
     private Page<T> page;
-
-    public Page<T> getPage() {
-        return page;
-    }
-
-    public void setPage(Page<T> page) {
-        this.page = page;
-    }
 
     @Override
     public String toString() {

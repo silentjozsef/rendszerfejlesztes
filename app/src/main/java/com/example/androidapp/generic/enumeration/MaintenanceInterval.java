@@ -1,5 +1,10 @@
 package com.example.androidapp.generic.enumeration;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
 public enum MaintenanceInterval {
     WEEK,
     MONTH,
@@ -8,19 +13,4 @@ public enum MaintenanceInterval {
     YEAR;
 
     private String category;
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    @Override
-    public String toString() {
-        return "MaintenanceInterval{" +
-                "category='" + category + '\'' +
-                '}';
-    }
 }

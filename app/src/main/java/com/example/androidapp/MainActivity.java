@@ -27,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
         usernameedit = findViewById(R.id.usernameedit);
         passwordedit = findViewById(R.id.passwordedit);
         loginbtn = findViewById(R.id.loginbtn);
-
-
+        
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
