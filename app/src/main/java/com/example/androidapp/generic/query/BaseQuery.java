@@ -7,11 +7,11 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.androidapp.MySingleton;
+import com.example.androidapp.generic.GlobalGson;
 import com.example.androidapp.generic.callback.ErrorCallBack;
 import com.example.androidapp.generic.callback.SuccessCallBack;
-import com.example.androidapp.generic.GlobalGson;
-import com.example.androidapp.generic.entity.Tool;
 import com.example.androidapp.generic.request.GenericSingleRequest;
+import com.example.androidapp.generic.request.MyJsonObjectRequest;
 import com.example.androidapp.generic.response.GenericListResponse;
 import com.example.androidapp.generic.response.GenericPageResponse;
 import com.example.androidapp.generic.response.GenericSingleResponse;
@@ -22,24 +22,53 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
-public abstract class BaseQuery<T> {
+public class BaseQuery<T> {
+
+    protected static final BaseQuery query = new BaseQuery<>();
 
     protected static final String backendURL = "http://192.168.0.74:8080/";
 
-    protected final String parentUrl;
-
+    protected String parentUrl;
     protected Context context;
+    protected String session;
 
-    public BaseQuery(String parentUrl, Context context) {
-        this.parentUrl = parentUrl;
-        this.context = context;
+
+    public BaseQuery() {
     }
 
-    public void getById(Long id, final SuccessCallBack<GenericSingleResponse> successCallBack, final ErrorCallBack<GenericSingleResponse> errorCallBack) throws Exception {
+    public static BaseQuery get() {
+        return query;
+    }
+
+    public static BaseQuery get(Context context) {
+        query.context = context;
+        return query;
+    }
+
+    public String getSession() {
+        return session;
+    }
+
+    public void setSession(String session) {
+        if (!query.equals(this)) {
+            query.setSession(session);
+        }
+        this.session = session;
+    }
+
+    public String getParentUrl() {
+        return parentUrl;
+    }
+
+    public void setParentUrl(String parentUrl) {
+        this.parentUrl = parentUrl;
+    }
+
+    public void getById(Long id, final SuccessCallBack<GenericSingleResponse> successCallBack, final ErrorCallBack<GenericSingleResponse> errorCallBack) {
         String requestUrl = backendURL + parentUrl + "get-by-id?id=" + id.toString();
 
         String finalUrl = requestUrl;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, requestUrl, null,
+        JsonObjectRequest request = new MyJsonObjectRequest(Request.Method.GET, requestUrl, null, null, null, session,
                 response -> {
                     GenericSingleResponse genericSingleResponse = getGenericSingleResponse(response.toString());
                     successCallBack.onSuccess(genericSingleResponse);
@@ -66,7 +95,7 @@ public abstract class BaseQuery<T> {
         String requestUrl = backendURL + parentUrl + "list?search=" + search;
 
         String finalUrl = requestUrl;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, requestUrl, null,
+        JsonObjectRequest request = new MyJsonObjectRequest(Request.Method.GET, requestUrl, null, null, null, session,
                 response -> {
                     GenericListResponse genericSingleResponse = getGenericListResponse(response.toString());
                     successCallBack.onSuccess(genericSingleResponse);
@@ -89,10 +118,10 @@ public abstract class BaseQuery<T> {
     }
 
     public void pageable(Long size, Long page, String search, final SuccessCallBack<GenericPageResponse> successCallBack, final ErrorCallBack<GenericPageResponse> errorCallBack) {
-        String requestUrl = backendURL + parentUrl + "pageable?size="+ size +"&page=" + page + "&search=" + search;
+        String requestUrl = backendURL + parentUrl + "pageable?size=" + size + "&page=" + page + "&search=" + search;
 
         String finalUrl = requestUrl;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, requestUrl, null,
+        JsonObjectRequest request = new MyJsonObjectRequest(Request.Method.GET, requestUrl, null, null, null, session,
                 response -> {
                     GenericPageResponse genericPageResponse = getGenericPageResponse(response.toString());
                     successCallBack.onSuccess(genericPageResponse);
@@ -120,7 +149,7 @@ public abstract class BaseQuery<T> {
 
             GenericSingleRequest user = new GenericSingleRequest<T>(entity);
 
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, requestUrl, new JSONObject(GlobalGson.get().getGson().toJson(user)),
+            JsonObjectRequest request = new MyJsonObjectRequest(Request.Method.POST, requestUrl, new JSONObject(GlobalGson.get().getGson().toJson(user)), null, null, session,
                     response -> {
                         GenericSingleResponse genericSingleResponse = getGenericSingleResponse(response.toString());
                         successCallBack.onSuccess(genericSingleResponse);
@@ -148,26 +177,33 @@ public abstract class BaseQuery<T> {
 
     }
 
-    public abstract BaseQuery setContext(Context context);
+    public BaseQuery setContext(Context context) {
+        query.context = context;
+        this.context = context;
+        return this;
+    }
 
     //generic functions for child classes
 
     protected GenericSingleResponse getGenericSingleResponse(String json) {
-        GenericSingleResponse genericSingleResponse = GlobalGson.get().getGson().fromJson(json, new TypeToken<GenericSingleResponse<T>>() {}.getType());
+        GenericSingleResponse genericSingleResponse = GlobalGson.get().getGson().fromJson(json, new TypeToken<GenericSingleResponse<T>>() {
+        }.getType());
         return genericSingleResponse;
     }
 
     protected GenericListResponse getGenericListResponse(String json) {
-        GenericListResponse genericListResponse = GlobalGson.get().getGson().fromJson(json, new TypeToken<GenericListResponse<T>>() {}.getType());
+        GenericListResponse genericListResponse = GlobalGson.get().getGson().fromJson(json, new TypeToken<GenericListResponse<T>>() {
+        }.getType());
         return genericListResponse;
     }
 
     protected GenericPageResponse getGenericPageResponse(String json) {
-        GenericPageResponse genericPageResponse = GlobalGson.get().getGson().fromJson(json, new TypeToken<GenericPageResponse<T>>() {}.getType());
+        GenericPageResponse genericPageResponse = GlobalGson.get().getGson().fromJson(json, new TypeToken<GenericPageResponse<T>>() {
+        }.getType());
         return genericPageResponse;
     }
 
-    protected void sendRequest( JsonObjectRequest request) {
+    protected void sendRequest(JsonObjectRequest request) {
         request.setRetryPolicy(new DefaultRetryPolicy(
                 5000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,

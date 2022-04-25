@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class BaseRestResponse {
     protected String status;
     protected String cause;
+    protected String headers;
 }

@@ -6,28 +6,25 @@ import com.example.androidapp.generic.entity.Education;
 
 public class RelEducationUserQuery extends BaseQuery<Education> {
 
-    private static final RelEducationUserQuery query = new RelEducationUserQuery();
-
     public static RelEducationUserQuery get() {
-        return query;
+        RelEducationUserQuery relEducationUserQuery = new RelEducationUserQuery();
+        relEducationUserQuery.context = query.context;
+        relEducationUserQuery.parentUrl = url;
+        relEducationUserQuery.session = query.session;
+        return relEducationUserQuery;
     }
 
+    public static RelEducationUserQuery get(Context context) {
+        RelEducationUserQuery relEducationUserQuery = new RelEducationUserQuery();
+        relEducationUserQuery.context = context;
+        relEducationUserQuery.parentUrl = url;
+        relEducationUserQuery.session = query.session;
+        return relEducationUserQuery;
+    }
     private static final String url = "rel-education-user/";
-
-    private RelEducationUserQuery() {
-        super(url, null);
-    }
-
-    private RelEducationUserQuery(Context context) {
-        super(url, context);
-    }
-
-
 
     @Override
     public RelEducationUserQuery setContext(Context context) {
-        this.context = context;
-        return this;
+        return (RelEducationUserQuery)super.setContext(context);
     }
-
 }

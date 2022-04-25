@@ -19,33 +19,27 @@ import java.io.UnsupportedEncodingException;
 
 public class ToolQuery extends BaseQuery<Tool> {
 
-    private static final ToolQuery query = new ToolQuery();
 
     public static ToolQuery get() {
-        return query;
+        ToolQuery toolQuery = new ToolQuery();
+        toolQuery.context = query.context;
+        toolQuery.parentUrl = url;
+        toolQuery.session = query.session;
+        return toolQuery;
     }
 
+    public static ToolQuery get(Context context) {
+        ToolQuery toolQuery = new ToolQuery();
+        toolQuery.context = context;
+        toolQuery.parentUrl = url;
+        toolQuery.session = query.session;
+        return toolQuery;
+    }
     private static final String url = "tool/";
-
-    private ToolQuery() {
-        super(url, null);
-    }
-
-    private ToolQuery(Context context) {
-        super(url, context);
-    }
-
-
-
 
     @Override
     public ToolQuery setContext(Context context) {
-        this.context = context;
-        return this;
+        return (ToolQuery)super.setContext(context);
     }
-
-
-
-
 
 }

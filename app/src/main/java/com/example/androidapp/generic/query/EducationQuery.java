@@ -7,27 +7,33 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.androidapp.generic.callback.ErrorCallBack;
 import com.example.androidapp.generic.callback.SuccessCallBack;
 import com.example.androidapp.generic.entity.Education;
-import com.example.androidapp.generic.entity.Tool;
 import com.example.androidapp.generic.response.GenericListResponse;
 
 import java.io.UnsupportedEncodingException;
 
 public class EducationQuery extends BaseQuery<Education> {
 
-    private static final EducationQuery query = new EducationQuery();
-
     public static EducationQuery get() {
-        return query;
+        EducationQuery educationQuery = new EducationQuery();
+        educationQuery.context = query.context;
+        educationQuery.parentUrl = url;
+        educationQuery.session = query.session;
+        return educationQuery;
+    }
+
+    public static EducationQuery get(Context context) {
+        EducationQuery educationQuery = new EducationQuery();
+        educationQuery.context = context;
+        educationQuery.parentUrl = url;
+        educationQuery.session = query.session;
+        return educationQuery;
     }
 
     private static final String url = "education/";
 
-    private EducationQuery() {
-        super(url, null);
-    }
-
-    private EducationQuery(Context context) {
-        super(url, context);
+    @Override
+    public EducationQuery setContext(Context context) {
+        return (EducationQuery) super.setContext(context);
     }
 
     public void listByToolCategory(Long toolCategoryId, final SuccessCallBack<GenericListResponse> successCallBack, final ErrorCallBack<GenericListResponse> errorCallBack) {
@@ -56,11 +62,5 @@ public class EducationQuery extends BaseQuery<Education> {
         sendRequest(request);
     }
 
-
-    @Override
-    public EducationQuery setContext(Context context) {
-        this.context = context;
-        return this;
-    }
 
 }

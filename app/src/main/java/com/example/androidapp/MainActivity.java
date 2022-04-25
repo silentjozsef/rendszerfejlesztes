@@ -8,11 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.androidapp.generic.entity.Tool;
-import com.example.androidapp.generic.entity.ToolCategory;
-import com.example.androidapp.generic.query.RelEducationToolCategoryQuery;
-import com.example.androidapp.generic.query.ToolCategoryQuery;
-import com.example.androidapp.generic.query.ToolQuery;
 import com.example.androidapp.generic.query.UserQuery;
 
 public class MainActivity extends AppCompatActivity {

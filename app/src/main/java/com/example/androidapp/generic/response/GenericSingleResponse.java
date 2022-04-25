@@ -19,6 +19,7 @@ public class GenericSingleResponse<T> extends BaseRestResponse {
                 "status='" + status + '\'' +
                 ", cause='" + cause + '\'' +
                 ", item=" + item +
+                ", headers=" + headers +
                 '}';
     }
 }
